@@ -1,5 +1,5 @@
-import * as React from 'react';
-import SvgIcon from '@mui/material/SvgIcon';
+import * as React from "react";
+import SvgIcon from "@mui/material/SvgIcon";
 
 export function SitemarkIcon() {
   return (
@@ -49,6 +49,12 @@ export function SitemarkIcon() {
         />
       </svg>
     </SvgIcon>
+  );
+}
+
+export function PawsyIcon() {
+  return(
+    <img src="src\assets\perro.png" alt="pawsy logo" width={43} height={32}></img>
   );
 }
 
