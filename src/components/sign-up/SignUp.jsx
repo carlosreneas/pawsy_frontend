@@ -66,11 +66,14 @@ export default function SignUp(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [phoneError, setPhoneError] = React.useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = React.useState('');
 
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const name = document.getElementById('name');
+    const phone = document.getElementById('phone');
 
     let isValid = true;
 
@@ -90,6 +93,15 @@ export default function SignUp(props) {
     } else {
       setPasswordError(false);
       setPasswordErrorMessage('');
+    }
+
+    if(!phone.value || phone.value.length < 10) {
+      setPhoneError(true);
+      setPhoneErrorMessage('Must be a valid phone number');
+      isValid = false;
+    } else {
+      setPhoneError(false);
+      setPhoneErrorMessage('');
     }
 
     if (!name.value || name.value.length < 1) {
@@ -164,6 +176,21 @@ export default function SignUp(props) {
                 error={emailError}
                 helperText={emailErrorMessage}
                 color={passwordError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="tel">Phone Number</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="phone"
+                placeholder="1234567890"
+                name="phone"
+                autoComplete="tel"
+                variant="outlined"
+                error={phoneError}
+                helperText={phoneErrorMessage}
+                color={phoneError ? 'error' : 'primary'}
               />
             </FormControl>
             <FormControl>
