@@ -127,6 +127,7 @@ export default function SignUp(props) {
       lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
+      phone: data.get('phone')
     });
   };
 
