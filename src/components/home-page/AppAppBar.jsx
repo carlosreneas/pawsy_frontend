@@ -80,10 +80,18 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
+            <Button color="primary" variant="text" size="small" onClick={
+                () => {
+                    window.location.href = '/SingIn';
+                }
+            }>
               Sign in
             </Button>
-            <Button color="primary" variant="contained" size="small">
+            <Button color="primary" variant="contained" size="small" onClick={
+              ()=> {
+                window.location.href = '/SingUp';
+              }
+            }>
               Sign up
             </Button>
             <ColorModeIconDropdown />
