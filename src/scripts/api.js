@@ -1,3 +1,4 @@
 export const api = {
-    //llenen los métodos acá
+    //put here your code
+    //for all the features
 }
