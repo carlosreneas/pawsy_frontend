@@ -15,7 +15,8 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import { GoogleIcon, FacebookIcon, SitemarkIcon, PawsyIcon } from './CustomIcons';
+import { GoogleIcon, FacebookIcon, PawsyIcon } from './CustomIcons';
+import { userApi } from '../../scripts/userApi';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -124,12 +125,14 @@ export default function SignUp(props) {
     }
     const data = new FormData(event.currentTarget);
     console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
+      nombre: data.get('name'),
       email: data.get('email'),
-      password: data.get('password'),
-      phone: data.get('phone')
+      clave: data.get('password'),
+      telefono: data.get('phone')
     });
+
+    event.preventDefault();
+    handleSignUp(data);
   };
 
   return (
@@ -259,4 +262,15 @@ export default function SignUp(props) {
       </SignUpContainer>
     </AppTheme>
   );
+}
+
+async function handleSignUp(user) {
+  try {
+      await userApi.signUp(user);
+    } catch (error) {
+      console.error('Error signing up:', error);
+      alert('Error signing up. Please try again.');
+      return;
+    }
+    window.location.href = '/';
 }
