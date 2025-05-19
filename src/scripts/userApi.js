@@ -2,9 +2,9 @@ const API_URL = 'https://api.example.com';
 
 export const userApi = {
     async signUp(user) {
-        // alert(user);
+        alert(user);
         if(user == null) {
-            return false;
+            throw new Error('User data is required');
         }
         return true;
         // return fetch('https://api.example.com/signup', {

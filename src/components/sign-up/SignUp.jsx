@@ -131,9 +131,8 @@ export default function SignUp(props) {
       telefono: data.get('phone')
     });
 
-    userApi.signUp(data);
     event.preventDefault();
-    window.location.href = '/';
+    handleSignUp(data);
   };
 
   return (
@@ -263,4 +262,15 @@ export default function SignUp(props) {
       </SignUpContainer>
     </AppTheme>
   );
+}
+
+async function handleSignUp(user) {
+  try {
+      await userApi.signUp(user);
+    } catch (error) {
+      console.error('Error signing up:', error);
+      alert('Error signing up. Please try again.');
+      return;
+    }
+    window.location.href = '/';
 }
