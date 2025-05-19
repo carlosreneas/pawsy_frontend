@@ -124,15 +124,16 @@ export default function SignUp(props) {
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
+    const user = {
       nombre: data.get('name'),
       email: data.get('email'),
       clave: data.get('password'),
       telefono: data.get('phone')
-    });
+    }; 
+    console.log(user);
 
     event.preventDefault();
-    handleSignUp(data);
+    handleSignUp(user);
   };
 
   return (
