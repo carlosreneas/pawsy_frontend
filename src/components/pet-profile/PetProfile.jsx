@@ -1,145 +1,86 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Grid,
-  Avatar,
-  Chip,
-  Stack,
-  IconButton,
-  CssBaseline,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Avatar from '@mui/material/Avatar';
+import PetsIcon from '@mui/icons-material/Pets';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 
-// Styled container for the profile page
-const ProfileContainer = styled(Box)(({ theme }) => ({
-  minHeight: '100vh',
+// Componente estilizado similar al Card del login
+const Card = styled(MuiCard)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
   padding: theme.spacing(4),
-  backgroundColor: theme.palette.background.default,
-  position: 'relative',
+  gap: theme.spacing(2),
+  margin: 'auto',
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: '500px',
+  },
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  ...theme.applyStyles('dark', {
+    boxShadow:
+      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+  }),
 }));
 
-// Back button wrapper
-const BackButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(2),
-  left: theme.spacing(2),
-  color: theme.palette.text.primary,
+const ProfileContainer = styled(Stack)(({ theme }) => ({
+  overflow: 'auto',
+  minHeight: '100vh',
+  padding: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    padding: theme.spacing(4),
+  },
+  '&::before': {
+    content: '""',
+    display: 'block',
+    position: 'fixed',
+    zIndex: -1,
+    inset: 0,
+    backgroundImage:
+      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+    backgroundRepeat: 'no-repeat',
+    ...theme.applyStyles('dark', {
+      backgroundImage:
+        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
+    }),
+  },
 }));
 
-export default function PetProfile({ petId }) {
-  const [pet, setPet] = useState(null);
-
-  useEffect(() => {
-    // Simulated fetch -- replace with real API call
-    fetch(`/api/mascotas/${petId}`)
-      .then(res => res.json())
-      .then(data => setPet(data))
-      .catch(() => {
-        // fallback or error handling
-      });
-  }, [petId]);
-
-  if (!pet) {
-    return (
-      <AppTheme>
-        <ProfileContainer>
-          <CssBaseline />
-          <Typography variant="h6">Loading profile...</Typography>
-        </ProfileContainer>
-      </AppTheme>
-    );
-  }
-
+export default function PetProfile({ pet }) {
   return (
     <AppTheme>
-      <CssBaseline />
-      <ColorModeSelect sx={{ position: 'fixed', top: 16, right: 16 }} />
-
-      <ProfileContainer>
-        <BackButton onClick={() => window.history.back()}>
-          <ArrowBackIcon />
-        </BackButton>
-
-        <Grid container spacing={4} justifyContent="center">
-          {/* Pet info card */}
-          <Grid item xs={12} md={6} lg={4}>
-            <Card variant="outlined">
-              {pet.mascota_fotos && pet.mascota_fotos.length > 0 && (
-                <CardMedia
-                  component="img"
-                  height="240"
-                  image={pet.mascota_fotos[0]}
-                  alt={pet.mascota_nombre}
-                />
-              )}
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  {pet.mascota_nombre}
-                </Typography>
-                <Stack direction="row" spacing={1} mb={2}>
-                  <Chip label={pet.tipo_mascota || 'Sin tipo'} />
-                  <Chip label={`${pet.mascota_edad} años`} />
-                </Stack>
-                <Typography variant="body1" paragraph>
-                  {pet.mascota_descripcion}
-                </Typography>
-
-                <Typography variant="h6" gutterBottom>
-                  Dueño
-                </Typography>
-                <Stack direction="row" alignItems="center" spacing={2} mb={1}>
-                  <Avatar>
-                    {pet.cliente_nombre.charAt(0)}
-                  </Avatar>
-                  <Typography>{pet.cliente_nombre}</Typography>
-                </Stack>
-                <Typography variant="body2">
-                  Email: {pet.cliente_email}
-                </Typography>
-                <Typography variant="body2">
-                  Teléfono: {pet.cliente_telefono}
-                </Typography>
-                {pet.cliente_direccion && (
-                  <Typography variant="body2">
-                    Dirección: {pet.cliente_direccion}
-                  </Typography>
-                )}
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Photo gallery card */}
-          {pet.mascota_fotos && pet.mascota_fotos.length > 1 && (
-            <Grid item xs={12} md={6} lg={4}>
-              <Card variant="outlined" sx={{ p: 2 }}>
-                <Typography variant="h6" gutterBottom>
-                  Fotos
-                </Typography>
-                <Grid container spacing={2}>
-                  {pet.mascota_fotos.map((url, i) => (
-                    <Grid key={i} item xs={6} sm={4}>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={url}
-                        alt={`${pet.mascota_nombre} foto ${i + 1}`}
-                        sx={{ borderRadius: 2 }}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Card>
-            </Grid>
-          )}
-        </Grid>
+      <CssBaseline enableColorScheme />
+      <ProfileContainer direction="column" justifyContent="center" alignItems="center">
+        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+        <Card variant="outlined">
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+            <Avatar sx={{ bgcolor: 'primary.main', width: 64, height: 64 }}>
+              <PetsIcon fontSize="large" />
+            </Avatar>
+            <Typography variant="h5" component="h1">
+              Perfil de {pet.nombre}
+            </Typography>
+            <Divider sx={{ width: '100%' }} />
+            <Typography variant="body1"><strong>Tipo:</strong> {pet.tipo}</Typography>
+            <Typography variant="body1"><strong>Edad:</strong> {pet.edad} años</Typography>
+            <Typography variant="body1"><strong>Descripción:</strong></Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+              {pet.descripcion}
+            </Typography>
+            <Button variant="contained" sx={{ mt: 2 }}>
+              Editar perfil
+            </Button>
+          </Box>
+        </Card>
       </ProfileContainer>
     </AppTheme>
   );
