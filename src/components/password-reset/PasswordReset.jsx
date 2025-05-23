@@ -82,10 +82,14 @@ export default function PasswordReset() {
     const newPassword = data.get("new_password");
     // console.log(newPassword);
     // alert(newPassword);
-    const resetSuccesful = validateReset(getTokenFromUrl(), newPassword);
-    if(resetSuccesful) {
-      setSuccess(true);
-    }
+    validateReset(getTokenFromUrl(), newPassword).then(
+      (resetSuccesful) => {
+        console.log("Reset successful:", resetSuccesful);
+        if(resetSuccesful == true) {
+          setSuccess(true);
+        }
+      }
+    );
   };
 
   const validateReset = async (token, newPassword) => {
