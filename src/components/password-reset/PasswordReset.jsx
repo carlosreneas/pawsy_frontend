@@ -10,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import PasswordResetConfirm from "./PasswordResetConfirm";
+import { userApi } from "../../scripts/userApi";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -55,12 +56,22 @@ const PageContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
+function getTokenFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+  return token;
+}
+
 export default function PasswordReset() {
   const [newError, setNewError] = React.useState(false);
   const [confirmError, setConfirmError] = React.useState(false);
   const [newErrorMessage, setNewErrorMessage] = React.useState("");
   const [confirmErrorMessage, setConfirmErrorMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
+
+  // const showSuccessMessage = () => {
+  //   setSuccess(true);
+  // }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,10 +80,25 @@ export default function PasswordReset() {
     }
     const data = new FormData(event.currentTarget);
     const newPassword = data.get("new_password");
-    console.log(newPassword);
+    // console.log(newPassword);
     // alert(newPassword);
-    setSuccess(true);
+    const resetSuccesful = validateReset(getTokenFromUrl(), newPassword);
+    if(resetSuccesful) {
+      setSuccess(true);
+    }
   };
+
+  const validateReset = async (token, newPassword) => {
+    var answer;
+    try {
+      answer = await userApi.resetPassword(token, newPassword);
+    } catch (error) {
+      alert("Error resetting password");
+      console.error("Error resetting password:", error);
+      return false;
+    }
+    return answer;
+  }
 
   const validateInputs = () => {
     const newPassword = document.getElementById("new_password");
