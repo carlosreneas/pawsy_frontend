@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import PasswordResetConfirm from "./PasswordResetConfirm";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -59,6 +60,7 @@ export default function PasswordReset() {
   const [confirmError, setConfirmError] = React.useState(false);
   const [newErrorMessage, setNewErrorMessage] = React.useState("");
   const [confirmErrorMessage, setConfirmErrorMessage] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -66,10 +68,10 @@ export default function PasswordReset() {
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      new_password: data.get("new_password"),
-    });
-    alert(data);
+    const newPassword = data.get("new_password");
+    console.log(newPassword);
+    // alert(newPassword);
+    setSuccess(true);
   };
 
   const validateInputs = () => {
@@ -99,14 +101,22 @@ export default function PasswordReset() {
     return isValid;
   };
 
-  return (
+  return success ? (
     <AppTheme>
       <PageContainer>
         <Card variant="outlined">
-            <Typography
+          <PasswordResetConfirm />
+        </Card>
+      </PageContainer>
+    </AppTheme>
+  ) : (
+    <AppTheme>
+      <PageContainer>
+        <Card variant="outlined">
+          <Typography
             component="h1"
             variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+            sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
           >
             Recover Password
           </Typography>
