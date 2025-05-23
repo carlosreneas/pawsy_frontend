@@ -3,7 +3,6 @@ import Blog from './components/home-page/Blog.jsx';
 import SingUp from './components/sign-up/SignUp.jsx';
 import SingIn from './components/login/SignIn.jsx';
 import PasswordReset from './components/password-reset/PasswordReset.jsx';
-import './App.css'
 
 function App() {
     return (
