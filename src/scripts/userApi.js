@@ -16,5 +16,12 @@ export const userApi = {
         // })
         // .then(response => response.json())
         // .catch(error => console.error('Error:', error));
-    }
+    },
+
+    async resetPassword(token, newPassword) {
+        if(token == null || newPassword == null) {
+            throw new Error('Token and new password are required');
+        }
+        return true;
+    },
 }
